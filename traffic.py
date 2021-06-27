@@ -3,8 +3,7 @@ import pygame
 from pygame.locals import KEYDOWN, K_q
 import numpy as np
 import time
-from update_map import update_map, update_car_state, turning, non_turning
-from create import create_cars, create_traffic_map, create_intersections, build_map
+from create import create_world
 from intersections import intersection
 
 # CONSTANTS:
@@ -14,7 +13,7 @@ GREY = (160, 160, 160)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
-NUM_CARS = 1
+NUM_CARS = 10
 MAX_SPEED = 4 #cells/step
 
 # OUR GRID MAP:
@@ -25,25 +24,25 @@ _VARS = {'surf': False, 'gridWH': 400,
 
 
 def main():
-    traffic_map, cars, intersections = build_map(cellMAP, NUM_CARS)
+    world = create_world(cellMAP, NUM_CARS, MAX_SPEED)
     pygame.init()
     _VARS['surf'] = pygame.display.set_mode(SCREENSIZE)
     checkEvents()
     _VARS['surf'].fill(GREY)
     drawSquareGrid(
      _VARS['gridOrigin'], _VARS['gridWH'], _VARS['gridCells'])
-    placeCells(traffic_map)
+    placeCells(world.traffic_map)
     pygame.display.update()
     while True:
         checkEvents()
         _VARS['surf'].fill(GREY)
         drawSquareGrid(
          _VARS['gridOrigin'], _VARS['gridWH'], _VARS['gridCells'])
-        traffic_map, cars, intersections = update_map(traffic_map, cars, intersections, MAX_SPEED)
+        world.update_map()
         time.sleep(0.5)
-        if cars == []:
+        if world.cars == []:
             break
-        placeCells(traffic_map)
+        placeCells(world.traffic_map)
         pygame.display.update()
 
 
