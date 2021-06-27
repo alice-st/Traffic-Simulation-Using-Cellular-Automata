@@ -24,7 +24,6 @@ def create_traffic_map(traffic_map):
 def create_cars(traffic_map, NUM_CARS):
     cars = []
     temp = 0
-    occupancy_map = np.empty_like(traffic_map)
 
     while temp != NUM_CARS:
         rand_x = random.randint(0, traffic_map.shape[0]-1)
@@ -32,17 +31,15 @@ def create_cars(traffic_map, NUM_CARS):
         if traffic_map[rand_x, rand_y] == 0:
             traffic_map[rand_x, rand_y] = 1
             cars.append(car((rand_x, rand_y), temp))
-            occupancy_map[rand_x, rand_y] = cars[-1].id
             temp += 1
 
-    return traffic_map, cars, occupancy_map
+    return traffic_map, cars
 
 
 def create_intersections(traffic_map):
 
- # define intersections
+    # Define intersections
     intersections = []
-
 
     intersections.append(intersection(15, (14, 25), "GREEN", (14, 24)))
     intersections.append(intersection(19, (14, 45), "GREEN", (14, 44)))
@@ -58,7 +55,6 @@ def create_intersections(traffic_map):
     intersections.append(intersection(20, (15, 47), "GREEN", (14, 47)))
     intersections.append(intersection(36, (35, 27), "GREEN", (34, 27)))
     intersections.append(intersection(40, (35, 47), "GREEN", (34, 47)))
-
 
     intersections.append(intersection(66, (16, 24), "GREEN", (17, 24)))
     intersections.append(intersection(70, (16, 44), "GREEN", (17, 44)))

@@ -129,35 +129,17 @@ def turn_right(car, traffic_map, intersections):
 
 
 def continue_straight(car, traffic_map, intersections):
-    new_positions_x = []
-    new_positions_y = []
-    new_speeds = []
     if car.lane == 1 or car.lane == 3:
         new_position_x, new_position_y, new_speed = right_to_left(car, traffic_map, intersections)
-        new_positions_x.append(new_position_x)
-        new_positions_y.append(new_position_y)
-        new_speeds.append(new_speed)
     elif car.lane == 2 or car.lane == 4:
         new_position_x, new_position_y, new_speed = left_to_right(car, traffic_map, intersections)
-        new_positions_x.append(new_position_x)
-        new_positions_y.append(new_position_y)
-        new_speeds.append(new_speed)
-
-    if car.lane == 5 or car.lane == 7:
+    elif car.lane == 5 or car.lane == 7:
         new_position_x, new_position_y, new_speed = top_to_bottom(car, traffic_map, intersections)
-        new_positions_x.append(new_position_x)
-        new_positions_y.append(new_position_y)
-        new_speeds.append(new_speed)
-
     elif car.lane == 6 or car.lane == 8:
         new_position_x, new_position_y, new_speed = bottom_to_top(car, traffic_map, intersections)
-        new_positions_x.append(new_position_x)
-        new_positions_y.append(new_position_y)
-        new_speeds.append(new_speed)
 
-    car.update_position(new_positions_x[0], new_positions_y[0])
-    car.update_speed(new_speeds[0])
-    (new_positions_x[0], new_positions_y[0])
+    car.update_position(new_position_x, new_position_y)
+    car.update_speed(new_speed)
 
     return car
 
