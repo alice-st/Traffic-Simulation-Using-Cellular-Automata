@@ -2,8 +2,7 @@ import random
 
 
 class car(object):
-    def __init__(self, initial_position, id):
-        self.id = id
+    def __init__(self, initial_position):
         self.position_x = initial_position[0]
         self.position_y = initial_position[1]
         self.lane = self.set_initial_lane()

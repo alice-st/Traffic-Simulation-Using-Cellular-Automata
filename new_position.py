@@ -1,5 +1,4 @@
 def find_new_position(car, traffic_map, intersections):
-
     if car.state == "STRAIGHT":
         car = continue_straight(car, traffic_map, intersections)
     elif car.state == "RIGHT":
@@ -48,7 +47,7 @@ def turn_left(car, traffic_map, intersections):
             return car
     elif car.lane == 5 or car.lane == 7:
         if traffic_map[car.position_x+2, car.position_y] == 0 and traffic_map[car.position_x+1, car.position_y] == 0:
-            if car.position_x == 4:
+            if car.position_x == 14:
                 car.update_lane(2)
                 car.update_position(car.position_x+2, car.position_y)
                 car.update_speed(2)

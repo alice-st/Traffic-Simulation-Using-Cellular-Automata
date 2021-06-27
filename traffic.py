@@ -13,7 +13,7 @@ GREY = (160, 160, 160)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
-NUM_CARS = 10
+NUM_CARS = 100
 MAX_SPEED = 4 #cells/step
 
 # OUR GRID MAP:

@@ -43,7 +43,7 @@ class create_world():
             rand_y = random.randint(0, traffic_map.shape[0]-1)
             if traffic_map[rand_x, rand_y] == 0:
                 traffic_map[rand_x, rand_y] = 1
-                cars.append(car((rand_x, rand_y), temp))
+                cars.append(car((rand_x, rand_y)))
                 temp += 1
 
         return traffic_map, cars
@@ -131,32 +131,33 @@ class create_world():
         for c in self.cars:
             self.traffic_map[c.position_x, c.position_y] = 0
             c = self.update_car_state(c)
+            previous_lane = c.lane
 
             if c.position_x == 0 and c.position_y == 0:
                 self.cars.remove(c)
-                if self.traffic_map[16, 0] == 0:
-                    self.cars.append(car((16, 0), 2))
-                    self.traffic_map[16, 0] = 1
-                elif(self.traffic_map[15, 49]) == 0:
-                    self.cars.append(car((15, 49), 2))
+                if previous_lane == 1:
+                    self.cars.append(car((15, 49)))
                     self.traffic_map[15, 49] = 1
-                elif(self.traffic_map[36, 0]) == 0:
-                    self.cars.append(car((36, 0), 2))
-                    self.traffic_map[36, 0] = 1
-                elif (self.traffic_map[35, 49]) == 0:
-                    self.cars.append(car((35, 49), 2))
+                elif previous_lane == 2:
+                    self.cars.append(car((16, 0)))
+                    self.traffic_map[16, 0] = 1
+                elif previous_lane == 3:
+                    self.cars.append(car((35, 49)))
                     self.traffic_map[35, 49] = 1
-                elif (self.traffic_map[0, 25]) == 0:
-                    self.cars.append(car((0, 25), 2))
+                elif previous_lane == 4:
+                    self.cars.append(car((36, 0)))
+                    self.traffic_map[36, 0] = 1
+                elif previous_lane == 5:
+                    self.cars.append(car((0, 25)))
                     self.traffic_map[0, 25] = 1
-                elif (self.traffic_map[49, 26]) == 0:
-                    self.cars.append(car((49, 26), 2))
+                elif previous_lane == 6:
+                    self.cars.append(car((49, 26)))
                     self.traffic_map[49, 26] = 1
-                elif (self.traffic_map[0, 45]) == 0:
-                    self.cars.append(car((0, 45), 2))
+                elif previous_lane == 7:
+                    self.cars.append(car((0, 45)))
                     self.traffic_map[0, 45] = 1
-                elif (self.traffic_map[49, 46]) == 0:
-                    self.cars.append(car((49, 46), 2))
+                else:
+                    self.cars.append(car((49, 46)))
                     self.traffic_map[49, 46] = 1
             else:
                 self.traffic_map[c.position_x, c.position_y] = 1
@@ -167,10 +168,10 @@ class create_world():
             car.update_state(random.randint(0, 1)) # 0:Non turning vehicle, 1: Turning Vehicle
 
         if car.state == "LEFT" or car.state == "RIGHT":
-            print(car.state)
+            # print(car.state)
             return self.turning(car)
         else:
-            print(car.state)
+            # print(car.state)
             return self.non_turning(car)
 
     def turning(self, car):
