@@ -4,6 +4,14 @@ from cars import car
 import numpy as np
 
 
+def build_map(traffic_map, NUM_CARS):
+    traffic_map = create_traffic_map(traffic_map)
+    traffic_map, cars = create_cars(traffic_map, NUM_CARS)
+    intersections, traffic_map = create_intersections(traffic_map)
+
+    return traffic_map, cars, intersections
+
+
 def create_traffic_map(traffic_map):
     for row in range(traffic_map.shape[0]):
         for column in range(traffic_map.shape[1]):

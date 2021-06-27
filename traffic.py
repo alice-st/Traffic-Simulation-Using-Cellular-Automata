@@ -4,7 +4,7 @@ from pygame.locals import KEYDOWN, K_q
 import numpy as np
 import time
 from update_map import update_map, update_car_state, turning, non_turning
-from create import create_cars, create_traffic_map, create_intersections
+from create import create_cars, create_traffic_map, create_intersections, build_map
 from intersections import intersection
 
 # CONSTANTS:
@@ -25,7 +25,7 @@ _VARS = {'surf': False, 'gridWH': 400,
 
 
 def main():
-    traffic_map, cars, intersections = build_map(cellMAP)
+    traffic_map, cars, intersections = build_map(cellMAP, NUM_CARS)
     pygame.init()
     _VARS['surf'] = pygame.display.set_mode(SCREENSIZE)
     checkEvents()
@@ -45,14 +45,6 @@ def main():
             break
         placeCells(traffic_map)
         pygame.display.update()
-
-
-def build_map(traffic_map):
-    traffic_map = create_traffic_map(traffic_map)
-    traffic_map, cars = create_cars(traffic_map, NUM_CARS)
-    intersections, traffic_map = create_intersections(traffic_map)
-
-    return traffic_map, cars, intersections
 
 
 def placeCells(traffic_map):
