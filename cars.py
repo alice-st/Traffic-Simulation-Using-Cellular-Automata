@@ -6,7 +6,7 @@ class car(object):
         self.position_x = initial_position[0]
         self.position_y = initial_position[1]
         self.lane = self.set_initial_lane()
-        self.speed = 0 #1 cell/step
+        self.speed = 0 #cells/step
         self.state = "NONE"
         self.light = "GREEN"
 

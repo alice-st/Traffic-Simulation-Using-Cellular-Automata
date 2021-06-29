@@ -102,7 +102,7 @@ def turn_right(car, traffic_map, intersections):
             car.update_speed(1)
             (car.position_x, car.position_y+1)
     elif car.lane == 5 or car.lane == 7:
-        if car.position_x == 4:
+        if car.position_x == 14:
             car.update_lane(1)
             car.update_position(car.position_x+1, car.position_y)
             car.update_speed(1)

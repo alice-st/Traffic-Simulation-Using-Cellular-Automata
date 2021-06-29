@@ -6,10 +6,12 @@ from new_position import find_new_position
 
 
 class create_world():
-    def __init__(self, cellMap, NUM_CARS, MAX_SPEED):
+    def __init__(self, cellMap, NUM_CARS, MAX_SPEED, cycle):
+        self.cycle = cycle
         self.MAX_SPEED = MAX_SPEED
         self.NUM_CARS = NUM_CARS
         self.traffic_map, self.cars, self.intersections = self.build_map(cellMap)
+        self.flow = []
 
     def build_map(self, cellMap):
         traffic_map = self.create_traffic_map(cellMap)
@@ -128,10 +130,14 @@ class create_world():
         self.cars.extend(cars7)
         self.cars.extend(cars8)
 
+        flow = 0
+
         for c in self.cars:
+            previous_position = [c.position_x, c.position_y]
             self.traffic_map[c.position_x, c.position_y] = 0
             c = self.update_car_state(c)
             previous_lane = c.lane
+            new_position = [c.position_x, c.position_y]
 
             if c.position_x == 0 and c.position_y == 0:
                 self.cars.remove(c)
@@ -162,28 +168,32 @@ class create_world():
             else:
                 self.traffic_map[c.position_x, c.position_y] = 1
 
+            for intersection in self.intersections:
+                if previous_position[0] == intersection.position_x and previous_position[1] == intersection.position_y:
+                    if new_position[0] != intersection.position_x or new_position[1] != intersection.position_y:
+                        flow += 1
+        self.flow.append(flow)
+
     def update_car_state(self, car):
 
         if car.state == "NONE":
             car.update_state(random.randint(0, 1)) # 0:Non turning vehicle, 1: Turning Vehicle
 
         if car.state == "LEFT" or car.state == "RIGHT":
-            # print(car.state)
             return self.turning(car)
         else:
-            # print(car.state)
             return self.non_turning(car)
 
     def turning(self, car):
         for i in self.intersections:
             if car.position_x == i.position_x and car.position_y == i.position_y:
                 # car is at intersection
-                if car.light == "RED" and i.counter < 7:
+                if car.light == "RED" and i.counter < self.cycle:
                     i.update_counter(1)
                     i.update_light_state("RED")
                     self.traffic_map[i.visual_position_x, i.visual_position_y] = 6
                     return car # The vehicle does not move
-                elif car.light == "RED" and i.counter >= 7:
+                elif car.light == "RED" and i.counter >= self.cycle:
                     i.update_counter(0)
                     i.update_light_state("GREEN")
                     car.update_light("GREEN")
